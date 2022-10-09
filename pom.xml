@@ -19,6 +19,7 @@
         <module>shop-admin</module>
         <module>shop-port</module>
         <module>shop-auth</module>
+        <module>shop-common</module>
     </modules>
 
     <properties>
@@ -26,7 +27,20 @@
         <maven.compiler.target>11</maven.compiler.target>
         <spring-cloud.version>2021.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
+        <alibaba-druid.version>1.2.12</alibaba-druid.version>
+        <sharding-sphere.version>5.2.0</sharding-sphere.version>
+        <mybatis-spring-boot.version>2.2.2</mybatis-spring-boot.version>
+
+        <shop-common.version>0.0.1-SNAPSHOT</shop-common.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -40,6 +54,36 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
                 <version>${spring-cloud-alibaba.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gexingw</groupId>
+                <artifactId>shop-common</artifactId>
+                <version>${shop-common.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${alibaba-druid.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
+                <version>${sharding-sphere.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot.version}</version>
             </dependency>
 
         </dependencies>

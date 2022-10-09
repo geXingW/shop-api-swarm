@@ -4,3 +4,76 @@ server:
 spring:
   application:
     name: shop-admin
+
+
+  shardingsphere:
+    props:
+      sql-show: true
+
+    datasource:
+      names: ds_master,ds_slave_1,ds_slave2
+
+      ds_master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.100.101:3306/shop
+        username: root
+        password: 12345678
+        initial-size: 10  # 连接池初始化大小
+        min-idle: 10 # 最小链接数量
+        max-active: 20 # 最大链接数量
+        max-waite: 60000 # 链接最大等待时间
+
+      ds_slave_1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.100.102:3306/shop
+        username: root
+        password: 12345678
+        initial-size: 15  # 连接池初始化大小
+        min-idle: 15 # 最小链接数量
+        max-active: 20 # 最大链接数量
+        max-waite: 60000 # 链接最大等待时间
+
+
+      ds_slave2:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.100.103:3306/shop
+        username: root
+        password: 12345678
+        initial-size: 15  # 连接池初始化大小
+        min-idle: 15 # 最小链接数量
+        max-active: 20 # 最大链接数量
+        max-waite: 60000 # 链接最大等待时间
+
+    rules:
+      readwrite-splitting:
+        data-sources:
+          readwrite_ds:
+            static-strategy:
+              write-data-source-name: ds_master
+              read-data-source-names: ds_slave_1, ds_slave2
+            loadBalancerName: alg-round-robin
+
+
+        load-balancers:
+          alg-fixed-primary:
+            type: FIXED_PRIMARY
+
+          alg-round-robin:
+            type: ROUND_ROBIN
+
+          alg-weight:
+            type: WEIGHT
+            props:
+              ds_slave_1: 1
+              ds_slave2: 2
+
+
+mybatis:
+  mapper-locations:
+    - classpath*:mybatis/mapper/**/*.xml
+
+  configuration:
+    map-underscore-to-camel-case: true
